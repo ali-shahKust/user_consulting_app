@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "801803594467",
+    "firebase_url": "https://lawsuit-2bcb4.firebaseio.com",
+    "project_id": "lawsuit-2bcb4",
+    "storage_bucket": "lawsuit-2bcb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801803594467:android:cecfd7b3fb87f9c05733d6",
+        "android_client_info": {
+          "package_name": "devigntech.designsaeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801803594467-26o56uskb1oac8d4bcdkl5d5lfgd9esv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "devigntech.designsaeed",
+            "certificate_hash": "9538ada9eada3e420dc099dcc5c6ca1e9111a745"
+          }
+        },
+        {
+          "client_id": "801803594467-0g20vt4adcn0ar0r8l060fohgp7puil6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADZ0UkzceA82yoKemaHA9cNCONsOMOOQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801803594467-0g20vt4adcn0ar0r8l060fohgp7puil6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
