@@ -7,15 +7,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 class HomePage extends StatefulWidget {
+  //Retreive Data Of Lawyer From Previous Class
+  Map _map;
+
+  HomePage(Map map){
+    this._map = map;
+    print('my data is $_map');
+
+    _map['user_id'];
+
+
+  }
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(_map);
 }
 
 class _HomePageState extends State<HomePage> {
 
+  //Constructor for state
+  Map _map;
+  _HomePageState(this._map);
+  bool _validate = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             iconButton: IconButton(
                 icon: Icon(CupertinoIcons.forward),
                 onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LegalOpinion()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LegalOpinion(_map)));
                 }),
             ),
             homePageContainer(
@@ -125,6 +141,11 @@ class _HomePageState extends State<HomePage> {
 
     );
   }
+
+  addStringToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('lawyer_uid', _map['user_id']);
+  }
 }
 
 class homePageContainer extends StatelessWidget {
@@ -156,5 +177,6 @@ class homePageContainer extends StatelessWidget {
     ),
     );
   }
+
 }
 

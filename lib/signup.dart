@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:designsaeed/constants.dart';
 import 'package:designsaeed/homepage/HomePage.dart';
+import 'package:designsaeed/searchLawyer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -274,7 +275,7 @@ class _SignUpClassState extends State<SignUpClass> {
       pr.hide().then((isHidden) {
         print(isHidden);
       });
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Search_Lawyer_Page()));
     }catch(e){
 
       pr.hide().then((isHidden) {

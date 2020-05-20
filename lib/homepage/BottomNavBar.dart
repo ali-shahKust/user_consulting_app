@@ -1,8 +1,10 @@
 
 import 'package:designsaeed/Profile.dart';
+import 'package:designsaeed/Profile_Setting.dart';
 import 'package:designsaeed/homepage/HomePage.dart';
 import 'package:designsaeed/homepage/enterpriseAndPerson.dart';
 import 'package:designsaeed/homepage/messaging.dart';
+import 'package:designsaeed/searchLawyer.dart';
 import 'package:designsaeed/tabbar.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,8 +33,8 @@ class _BottomnavState extends State<Bottomnav> {
 
   List<Widget> _buildScreens() {
     return [
-      HomePage(),
-      ChatScreen(),
+      Search_Lawyer_Page(),
+      Profile_Setting(),
       Profile()
     ];
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:designsaeed/searchLawyer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -351,7 +352,7 @@ class _Profile_SettingState extends State<Profile_Setting> {
                   ),
                   onPressed: () {
                     createRecord();
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>HomePage()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Search_Lawyer_Page()));
                   },
                 ),
               )),
