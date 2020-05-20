@@ -1,4 +1,11 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:responsive_container/responsive_container.dart';
 
 import '../constants.dart';
@@ -6,11 +13,40 @@ import 'HomePage.dart';
 import 'LegalOpinion.dart';
 
 class Contract extends StatefulWidget {
+  Map _map;
+
+  Contract(Map map){
+    this._map = map;
+    print('my data is $_map');
+
+    _map['user_id'];
+
+
+  }
   @override
-  _ContractState createState() => _ContractState();
+  _ContractState createState() => _ContractState(_map);
 }
 
 class _ContractState extends State<Contract> {
+
+  Map _map;
+  _ContractState(this._map);
+  bool _validate = false;
+  bool isChecked = true;
+  String lawyer_id= '';
+  String myname = '';
+  String lawyer_name ='';
+  DocumentSnapshot mRef;
+  String stringValue;
+  var url;
+//Init function will be called on Start to get Details of users
+  @override
+  void initState() {
+    // TODO: implement initState
+    getInfo();
+    super.initState();
+  }
+  StorageReference _storageReference;
   showAlertDialog(BuildContext context, String message, IconButton iconButton) {
     // set up the buttons
 
@@ -132,23 +168,23 @@ class _ContractState extends State<Contract> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    documentsUpload(),
-                    documentsUpload(),
-                    documentsUpload()
+                    Column(
+                      children: <Widget>[
+                        GestureDetector(
+                            onTap: (){
+                              pickDoc();
+                            },
+                            child: Image.asset("assets/file.png")),
+                        Text("Documents.docx",style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Gotham'
+                        ),)
+                      ],
+                    )
                   ],
                 ),
               ),sizedBoxHeight,
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    documentsUpload(),
-                    documentsUpload(),
-                    documentsUpload()
-                  ],
-                ),
-              ),
+
               sizedBoxHeight,
               sizedBoxHeight,
               ResponsiveContainer(
@@ -178,4 +214,84 @@ class _ContractState extends State<Contract> {
       ),
     );
   }
+
+  Future<String> pickDoc() async {
+    File file =
+    await FilePicker.getFile(type: FileType.custom, allowedExtensions:['jpg', 'pdf', 'doc']);
+    List<File> files = await FilePicker.getMultiFile(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc'],
+    );
+    _storageReference = FirebaseStorage.instance
+        .ref()
+        .child('${DateTime.now().millisecondsSinceEpoch}');
+    StorageUploadTask storageUploadTask = _storageReference.putFile(file);
+    url = await (await storageUploadTask.onComplete).ref.getDownloadURL();
+    Fluttertoast.showToast(
+        msg: "Document Uploaded",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.grey.shade300,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
+
+    setState(() {
+
+    });
+
+    print("URL: $url");
+
+    return url;
+  }
+
+  void getInfo() async {
+    mRef = await Firestore.instance
+        .collection("Users")
+        .document((await FirebaseAuth.instance.currentUser()).uid)
+        .get();
+    setState(() {
+    });
+  }
+
+  //Function will be called On Request Send
+  void uploadDocumentToDb() async{
+    try{
+      DocumentReference ref = await databaseReference.collection("My Request")
+          .add({
+        'lawyer_uid': _map['user_uid'],
+      //  'opinion_description': _descriptionController.text,
+        'opinion_document': url,
+        'client_uid': (await FirebaseAuth.instance.currentUser()).uid,
+        'username': mRef['username'],
+        'user_dp': mRef['user_dp'],
+        'lawyer_name': _map['username'],
+        'lawyer_dp':_map['user_dp'],
+        'chat_status': isChecked
+
+      });
+      Fluttertoast.showToast(
+          msg: "Request Send To Lawyer",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.grey.shade300,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
+    }catch(e){
+      Fluttertoast.showToast(
+          msg: e.message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.grey.shade300,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
+    }
+
+  }
+
 }

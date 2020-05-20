@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               iconButton: IconButton(
                   icon: Icon(CupertinoIcons.forward),
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contract()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contract(_map)));
                   }),
             ),
             homePageContainer(

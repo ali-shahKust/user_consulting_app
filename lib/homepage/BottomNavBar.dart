@@ -49,7 +49,7 @@ class _BottomnavState extends State<Bottomnav> {
         activeContentColor: Colors.black,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.mail),
+        icon: Icon(CupertinoIcons.gear_big),
         title: ("Chat"),
         activeColor:Color(0xFF8E7EF0),
         inactiveColor: Colors.black,

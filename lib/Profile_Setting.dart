@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart'; // For Image Picker
 import 'package:path/path.dart';
 
 import 'constants.dart';
+import 'homepage/BottomNavBar.dart';
 import 'homepage/HomePage.dart';
 
 
