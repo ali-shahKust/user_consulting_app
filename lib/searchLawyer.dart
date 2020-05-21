@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:designsaeed/homepage/BottomNavBar.dart';
+import 'package:designsaeed/homepage/client_chat_page.dart';
 import 'package:designsaeed/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'Profile_Setting.dart';
+import 'Profile_edit.dart';
 import 'constants.dart';
 import 'homepage/HomePage.dart';
 
@@ -345,34 +345,73 @@ class _Search_Lawyer_PageState extends State<Search_Lawyer_Page> {
                     ),
                   ],
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 35),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: appColor),
-                      child: FlatButton(
-                        child: Text(
-                          "Send Offer",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            print(LawyerList[index].toString());
+                Row(
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(top: 35),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              color: appColor),
+                          child: FlatButton(
+                            child: Text(
+                              "Send Offer",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                print(LawyerList[index].toString());
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomePage( _filteredList.isEmpty
-                                            ? LawyerList[index]: _filteredList[index])));
-                          });
-                        },
-                      ),
-                    )),
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HomePage( _filteredList.isEmpty
+                                                ? LawyerList[index]: _filteredList[index])));
+                              });
+                            },
+                          ),
+
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(top: 35),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              color: appColor),
+                          child: FlatButton(
+                            child: Text(
+                              "Start Chat",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                print(LawyerList[index].toString());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChatScreen(
+                                                name: LawyerList[index]['username'],
+                                                photoUrl: LawyerList[index]['user_dp'],
+                                                receiverUid:
+                                                LawyerList[index]['user_uid']
+                                            )));
+
+                              });
+                            },
+                          ),
+
+                        )),
+                  ],
+                )
+
               ],
             ),
           )
@@ -468,24 +507,13 @@ class _Search_Lawyer_PageState extends State<Search_Lawyer_Page> {
                       fontWeight: FontWeight.w600),
                 ),
                 abtMe == null
-                    ? Text('No Details')
+                    ? Text('No Details', style: TextStyle(color:  Colors.white, fontSize: 16.0),)
                     : Text(
                   abtMe,
-                  style: TextStyle(color: active, fontSize: 16.0),
+                  style: TextStyle(color:  Colors.white, fontSize: 16.0),
                 ),
                 SizedBox(height: 30.0),
-                GestureDetector(
-                  onTap: () {
-//                    Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) => ChatList()));
-                  },
-                  child: _buildRow(
-                    Icons.message,
-                    "Chat",
-                  ),
-                ),
+
                 _buildDivider(),
                 GestureDetector(
                     onTap: () {

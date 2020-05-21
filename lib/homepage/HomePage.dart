@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
               iconButton: IconButton(
                   icon: Icon(CupertinoIcons.forward),
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Lawsuit()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Lawsuit(_map)));
                   }),
             ),
             sizedBoxHeight,

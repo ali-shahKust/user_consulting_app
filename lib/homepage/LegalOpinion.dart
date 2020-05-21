@@ -239,7 +239,7 @@ class _LegalOpinionState extends State<LegalOpinion> {
   //Function will be called On Request Send
   void uploadDocumentToDb() async{
     try{
-      DocumentReference ref = await databaseReference.collection("My Request")
+      DocumentReference ref = await databaseReference.collection("legal_opinion")
           .add({
         'lawyer_uid': _map['user_uid'],
         'opinion_description': _descriptionController.text,

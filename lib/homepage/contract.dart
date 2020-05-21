@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +38,8 @@ class _ContractState extends State<Contract> {
   DocumentSnapshot mRef;
   String stringValue;
   var url;
+  final _contractTypeController = TextEditingController();
+  final _moreInfoController = TextEditingController();
 //Init function will be called on Start to get Details of users
   @override
   void initState() {
@@ -103,6 +104,7 @@ class _ContractState extends State<Contract> {
                   ),)),
               sizedBoxHeight,
               TextFormField(
+                controller: _contractTypeController,
                 maxLines: 7,
                 decoration:  InputDecoration(
                   hintText: "Type here",
@@ -132,6 +134,7 @@ class _ContractState extends State<Contract> {
                   ),)),
               sizedBoxHeight,
               TextFormField(
+                controller: _moreInfoController,
                 maxLines: 7,
                 decoration:  InputDecoration(
                   hintText: "Type here",
@@ -215,6 +218,7 @@ class _ContractState extends State<Contract> {
     );
   }
 
+
   Future<String> pickDoc() async {
     File file =
     await FilePicker.getFile(type: FileType.custom, allowedExtensions:['jpg', 'pdf', 'doc']);
@@ -222,6 +226,7 @@ class _ContractState extends State<Contract> {
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'doc'],
     );
+
     _storageReference = FirebaseStorage.instance
         .ref()
         .child('${DateTime.now().millisecondsSinceEpoch}');
@@ -258,18 +263,17 @@ class _ContractState extends State<Contract> {
   //Function will be called On Request Send
   void uploadDocumentToDb() async{
     try{
-      DocumentReference ref = await databaseReference.collection("My Request")
+      DocumentReference ref = await databaseReference.collection("contract")
           .add({
         'lawyer_uid': _map['user_uid'],
-      //  'opinion_description': _descriptionController.text,
-        'opinion_document': url,
+        'contract_description': _contractTypeController.text,
+        'contract_information': _moreInfoController.text,
+        'contract_document': url,
         'client_uid': (await FirebaseAuth.instance.currentUser()).uid,
         'username': mRef['username'],
         'user_dp': mRef['user_dp'],
         'lawyer_name': _map['username'],
         'lawyer_dp':_map['user_dp'],
-        'chat_status': isChecked
-
       });
       Fluttertoast.showToast(
           msg: "Request Send To Lawyer",

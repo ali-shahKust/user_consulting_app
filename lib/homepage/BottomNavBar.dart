@@ -1,15 +1,8 @@
-
 import 'package:designsaeed/Profile.dart';
-import 'package:designsaeed/Profile_Setting.dart';
-import 'package:designsaeed/homepage/HomePage.dart';
-import 'package:designsaeed/homepage/enterpriseAndPerson.dart';
-import 'package:designsaeed/homepage/messaging.dart';
+import 'package:designsaeed/Profile_edit.dart';
 import 'package:designsaeed/searchLawyer.dart';
-import 'package:designsaeed/tabbar.dart';
-import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/models/persisten-bottom-nav-item.widget.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-styles.widget.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';

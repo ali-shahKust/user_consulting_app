@@ -7,11 +7,32 @@ import 'HomePage.dart';
 
 
 class Lawsuit extends StatefulWidget {
+
+  Map _map;
+
+  Lawsuit(Map map) {
+    this._map = map;
+    print('my data is $_map');
+
+    _map['user_id'];
+  }
   @override
-  _LawsuitState createState() => _LawsuitState();
+  _LawsuitState createState() => _LawsuitState(_map);
 }
 
 class _LawsuitState extends State<Lawsuit> {
+
+  Map _map;
+  _LawsuitState(this._map);
+  bool _validate = false;
+  bool isChecked = true;
+  String lawyer_id= '';
+  String myname = '';
+  String lawyer_name ='';
+
+  String stringValue;
+  var url;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +63,7 @@ class _LawsuitState extends State<Lawsuit> {
             iconButton: IconButton(
                 icon: Icon(CupertinoIcons.forward),
                 onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AskAQuotation()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AskAQuotation(_map)));
                 }),
           ),
           homePageContainer(
