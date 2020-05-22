@@ -51,6 +51,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.0
   pull_to_refresh: ^1.5.7
   lite_rolling_switch: ^0.1.1
+  google_sign_in: ^4.5.1
 
 dev_dependencies:
   flutter_test:

@@ -38,6 +38,7 @@ class _ContractState extends State<Contract> {
   DocumentSnapshot mRef;
   String stringValue;
   var url;
+
   final _contractTypeController = TextEditingController();
   final _moreInfoController = TextEditingController();
 //Init function will be called on Start to get Details of users
@@ -194,10 +195,13 @@ class _ContractState extends State<Contract> {
                 heightPercent: 8.0,
                 widthPercent: 90.0,
                 child: RaisedButton(onPressed: () {
+                  uploadDocumentToDb();
                   showAlertDialog(context, 'Informormation has been sent.',
                       IconButton(icon: Icon(Icons.check_circle_outline,size: 50.0,),
                           color: Colors.green,
-                          onPressed: (){}));
+                          onPressed: (){
+                        Navigator.pop(context);
+                          }));
                 },
                   color: appColor,
                   child: Text("SUBMIT",style: TextStyle(

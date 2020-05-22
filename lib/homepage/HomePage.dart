@@ -142,10 +142,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  addStringToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('lawyer_uid', _map['user_id']);
-  }
+
+
 }
 
 class homePageContainer extends StatelessWidget {

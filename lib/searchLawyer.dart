@@ -348,7 +348,7 @@ class _Search_Lawyer_PageState extends State<Search_Lawyer_Page> {
                 Row(
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.only(top: 35),
+                        padding: EdgeInsets.only(top: 35, right: 5),
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10)),

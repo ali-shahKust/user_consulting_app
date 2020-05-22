@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:responsive_container/responsive_container.dart';
 
 import '../constants.dart';
@@ -25,10 +26,18 @@ class AskAQuotation extends StatefulWidget {
   @override
   _AskAQuotationState createState() => _AskAQuotationState(_map);
 }
+final databaseReference = Firestore.instance;
+ProgressDialog pr;
 final askquoteController = TextEditingController();
 class _AskAQuotationState extends State<AskAQuotation> {
+
+
+
   Map _map;
   _AskAQuotationState(this._map);
+
+
+
   bool _validate = false;
   bool isChecked = true;
   String lawyer_id= '';
@@ -71,6 +80,8 @@ class _AskAQuotationState extends State<AskAQuotation> {
   }
   @override
   Widget build(BuildContext context) {
+
+    pr = new ProgressDialog(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back,color: Colors.white,size: 25.0,), onPressed: (){
@@ -141,14 +152,19 @@ class _AskAQuotationState extends State<AskAQuotation> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Image.asset("assets/file.png"),
-                        Text("Documents.docx",style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Gotham'
-                        ),)
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        pickDoc();
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Image.asset("assets/file.png"),
+                          Text("Documents.docx",style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Gotham'
+                          ),)
+                        ],
+                      ),
                     )
 
                   ],
@@ -161,10 +177,13 @@ class _AskAQuotationState extends State<AskAQuotation> {
                 heightPercent: 8.0,
                 widthPercent: 90.0,
                 child: RaisedButton(onPressed: () {
+                  uploadDocumentToDb();
                   showAlertDialog(context, 'Informormation has been sent.',
                       IconButton(icon: Icon(Icons.check_circle_outline,size: 50.0,),
                           color: Colors.green,
-                          onPressed: (){}));
+                          onPressed: (){
+                        Navigator.pop(context);
+                          }));
                 },
                   color: appColor,
                   child: Text("SUBMIT",style: TextStyle(
@@ -197,6 +216,21 @@ class _AskAQuotationState extends State<AskAQuotation> {
         .ref()
         .child('${DateTime.now().millisecondsSinceEpoch}');
     StorageUploadTask storageUploadTask = _storageReference.putFile(file);
+    pr.style(
+        message: 'Please Wait...',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: CircularProgressIndicator(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+    );
+    await pr.show();
     url = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     Fluttertoast.showToast(
         msg: "Document Uploaded",
@@ -207,6 +241,9 @@ class _AskAQuotationState extends State<AskAQuotation> {
         textColor: Colors.black,
         fontSize: 16.0
     );
+    pr.hide().then((isHidden) {
+      print(isHidden);
+    });
 
     setState(() {
 

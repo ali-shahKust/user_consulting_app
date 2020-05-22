@@ -13,6 +13,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:responsive_container/responsive_container.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'homepage/BottomNavBar.dart';
 class Login extends StatefulWidget {
   @override
@@ -26,7 +28,8 @@ class _LoginState extends State<Login> {
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   ProgressDialog pr;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   @override
   Widget build(BuildContext context) {
     pr = new ProgressDialog(context);
@@ -195,6 +198,7 @@ class _LoginState extends State<Login> {
                   shape:  RoundedRectangleBorder(
                       borderRadius:  BorderRadius.circular(30.0)),
                   onPressed: () {
+                    signInWithGoogle();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -303,7 +307,38 @@ class _LoginState extends State<Login> {
     }
   }
 
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+    await googleSignInAccount.authentication;
 
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    await databaseReference.collection("Users")
+        .document(user.uid).setData({
+      'username': user.displayName,
+      'email': user.email,
+      'password': 'encrypt',
+      'phone_number': user.phoneNumber,
+      'user_uid': user.uid,
+      'surname': user.displayName
+    });
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Search_Lawyer_Page()));
+    return 'signInWithGoogle succeeded: $user';
+
+  }
 }
 
 

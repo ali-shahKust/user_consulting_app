@@ -29,6 +29,7 @@ class LegalOpinion extends StatefulWidget {
 
 
 final _descriptionController = new TextEditingController();
+final databaseReference = Firestore.instance;
 
 class _LegalOpinionState extends State<LegalOpinion> {
   Map _map;
@@ -276,38 +277,7 @@ class _LegalOpinionState extends State<LegalOpinion> {
   }
 }
 
-class documentsUpload extends StatefulWidget {
 
-  const documentsUpload({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _documentsUploadState createState() => _documentsUploadState();
-}
-//Variables
-
-//Refrence for Firebase
-final databaseReference = Firestore.instance;
-class _documentsUploadState extends State<documentsUpload> {
-  //Variables
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Image.asset("assets/file.png"),
-        Text("Documents.docx",style: TextStyle(
-          color: Colors.black,
-          fontFamily: 'Gotham'
-        ),)
-      ],
-    );
-  }
-
-
-}
 
 
 
